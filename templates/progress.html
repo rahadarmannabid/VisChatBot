@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress Button</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Progress Button</h1>
+        
+        <div class="progress mt-4">
+            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="20">0</div>
+        </div>
+        
+        <div class="mt-5">
+            <button id="progressButton" class="btn btn-primary">Progress</button>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+        var currentProgress = 0;
+        var progressBar = document.getElementById("progressBar");
+        
+        document.getElementById("progressButton").addEventListener("click", function() {
+            if (currentProgress < 20) {
+                currentProgress++;
+                progressBar.style.width = (currentProgress * 5) + "%";
+                progressBar.setAttribute("aria-valuenow", currentProgress);
+                progressBar.innerHTML = currentProgress;
+                
+                sendDataToBackend(currentProgress);
+            }
+        });
+        
+        function sendDataToBackend(value) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/progress", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({ progress: value }));
+        }
+    </script>
+</body>
+</html>
