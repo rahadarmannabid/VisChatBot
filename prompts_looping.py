@@ -20,7 +20,7 @@ import ast
 
 
 #gpt-4.0
-openai.api_key = "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"
+openai.api_key = "sk-FMyijawHFRnfjE9IazAzT3BlbkFJX0fSTRWHl3XLD32B7z67000"
 
 
 
