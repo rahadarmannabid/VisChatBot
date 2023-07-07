@@ -1,44 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Progress Button</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Next Button Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+
+        .custom-button {
+            font-size: 24px;
+            padding: 12px 24px;
+            border-radius: 8px;
+        }
+
+        .response {
+            font-size: 24px;
+            margin-bottom: 20px;
+            animation: fade-in 1s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .response.success {
+            color: #28a745;
+        }
+
+        .response.error {
+            color: #dc3545;
+        }
+
+        .list-container {
+            text-align: center; /* Center align the dictionary */
+            margin-top: 20px;
+            font-size: 18px;
+            overflow: auto;
+        }
+
+        .list-group {
+            display: inline-block; /* Allow centering */
+        }
+
+        .list-item {
+            animation: slide-up 0.6s ease;
+            word-break: break-word; /* Added to break long words */
+            display: inline-block; /* Added to allow wrapping */
+            white-space: normal; /* Added to allow wrapping */
+        }
+
+        .list-item .badge {
+            margin-right: 5px;
+        }
+
+        @keyframes slide-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Progress Button</h1>
-        
-        <div class="progress mt-4">
-            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="20">0</div>
-        </div>
-        
-        <div class="mt-5">
-            <button id="progressButton" class="btn btn-primary">Progress</button>
-        </div>
+        {{ chart | safe }}
+        {{data | safe}}
     </div>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <div class="container">
+        <h1>Expert Goggles</h1>
+        <div class="response {{ response_class }}">
+            {{prompt_base}}
+            <!-- {% if response %} -->
+            <div class="list-container container-fluid">
+                <div class="row justify-content-center"> <!-- Center align the row -->
+                    <ul class="list-group">
+                        {% for key, value in response.items() %}
+                            <li class="list-group-item list-item d-flex align-items-center">
+                                <span class="badge badge-primary">{{ key }}</span>
+                                <span class="badge badge-secondary d-inline-block">{{ value }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- {% endif %} -->
+        </div>
+        <form id="next-form" action="/send_data" method="POST">
+            <input type="hidden" name="value" value="1">
+            <button id="next-button" type="submit" class="btn btn-primary custom-button">Next</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        var currentProgress = 0;
-        var progressBar = document.getElementById("progressBar");
-        
-        document.getElementById("progressButton").addEventListener("click", function() {
-            if (currentProgress < 20) {
-                currentProgress++;
-                progressBar.style.width = (currentProgress * 5) + "%";
-                progressBar.setAttribute("aria-valuenow", currentProgress);
-                progressBar.innerHTML = currentProgress;
-                
-                sendDataToBackend(currentProgress);
-            }
+        $(document).ready(function () {
+            $('#next-form').submit(function () {
+                $('#next-button').attr('disabled', true);
+            });
         });
-        
-        function sendDataToBackend(value) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/progress", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify({ progress: value }));
-        }
     </script>
 </body>
 </html>
