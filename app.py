@@ -1,6 +1,6 @@
 #these are the libraries we are going to use in building our app
 from flask import Flask, render_template, request, jsonify, Response, render_template_string
-from prompts_looping import printing, get_completion, str2dict
+from prompts_looping import printing, get_completion, str2dict, LM_guided_1_1, LM_guided_2_1, LM_guided_2_2,LM_guided_3_1
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -8,20 +8,48 @@ app = Flask(__name__)
 increment = -1  #this is the serial number of the question that will be asked to chatgpt
 html_code = '' # this is the html file
 data = '' # this is the data associated with the html file
-
+selected_value = '' # this is the value selected by the user from the dropdown menu
 
 # Define a route for the default URL, which loads the form, this is the initial page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('exp_process_selection.html')
+
+@app.route('/exp_process', methods=['POST'])
+def send_data():
+    global selected_value
+    selected_value = request.form['value']
+    print(selected_value)
+    return render_template('input.html')
 
 #process the data from the form and send it to the progress page
 @app.route('/process', methods=['POST'])
 def process():
-    global html_code, data
+    global html_code, data, selected_value
     html_code = request.form['paragraph1']
     data = request.form['paragraph2']
-    return render_template("progress.html", chart=html_code, data=data)
+    print(str(selected_value))
+    if selected_value == '1-1':
+        topics = LM_guided_1_1()
+  
+    if selected_value == '2-1':
+        topics = LM_guided_2_1()
+        print(topics)
+    if selected_value == '2-2':
+        topics = LM_guided_2_2()
+        print(topics)
+    if selected_value == '2-3':
+        topics = LM_guided_2_1()
+        print(topics)
+    if selected_value == '3-1':
+        topics = LM_guided_3_1()
+        print(topics)
+
+    print(topics)
+    print(type(topics))
+    
+
+    return render_template("topics_all.html", topics=topics)
 
 
 #this is the page where the chatbot will be displayed
@@ -58,4 +86,4 @@ def send_number():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port='127.0.0.1:5001',debug=True)
