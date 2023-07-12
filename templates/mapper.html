@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Paragraphs</title>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .form-control {
+            border-color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-hidden {
+            margin-right:50px;
+            margin-top:50px;
+            visibility:hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Causal Mapper</h1>
+        <div>
+            <button type="button" class="btn btn-primary" id="button1" onclick="changeVisibility()">Hello Primary</button>
+        </div>
+        <div id="buttonContainer1">
+            <button type="button" class="btn btn-primary btn-hidden" id="button2">Hidden 1</button>
+            <button type="button" class="btn btn-primary btn-hidden" id="button3">Hidden 2</button>
+            <button type="button" class="btn btn-primary btn-hidden" id="button4">Hidden 3</button>
+            <button type="button" class="btn btn-primary btn-hidden" id="button5">Hidden 4</button>
+<!--            <button type="button" class="btn btn-primary" id="button6">Hidden 4</button>-->
+        </div>
+<!--
+<form action="/process" method="POST">-->
+<!--            <div class="form-group">-->
+<!--                <label for="paragraph1">D3 Code</label>-->
+<!--                <textarea class="form-control" name="paragraph1" rows="5" id="paragraph1"></textarea>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="paragraph2">Data:</label>-->
+<!--                <textarea class="form-control" name="paragraph2" rows="5" id="paragraph2"></textarea>-->
+<!--            </div>-->
+<!--            <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--        </form>-->
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/arrow-line/dist/arrow-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js" integrity="sha512-0dNdzMjpT6pJdFGF1DwybFCfm3K/lzHhxaMXC/92J9/DZujHlqYFqmhTOAoD0o+LkeEsVK2ar/ESs7/Q2B6wJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+            function changeVisibility(){
+                var selectedItems = document.querySelectorAll(".btn-hidden");
+                selectedItems.forEach((item) => {
+                    item.style.visibility = "visible"
+                    var selectedId = item.getAttribute("id");
+                    var idName = "#"+selectedId;
+                    const arrow = arrowLine('#button1', idName, { color: 'blue' });
+                })
+
+            }
+     </script>
+</body>
+</html>

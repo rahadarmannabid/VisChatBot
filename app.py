@@ -56,6 +56,10 @@ def send_number():
     
     return render_template('progress.html', response=response, chart=html_code, data=data, prompt_base = prompt_base)
 
+@app.route('/temp')
+def mapper():
+    return render_template('mapper.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

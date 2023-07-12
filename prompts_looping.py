@@ -20,7 +20,7 @@ import ast
 
 
 #gpt-3.5
-openai.api_key = 
+openai.api_key = ''
 
 
 
