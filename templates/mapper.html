@@ -47,6 +47,7 @@
         <h1 class="mt-5">Causal Mapper</h1>
         <div>
             <button type="button" class="btn btn-primary" id="button1" onclick="changeVisibility()">Hello Primary</button>
+            <button type="button" class="btn btn-primary" id="button6" onclick="getChildren(this.id)">Add new buttons</button>
         </div>
         <div id="buttonContainer1">
             <button type="button" class="btn btn-primary btn-hidden" id="button2">Hidden 1</button>
@@ -54,6 +55,8 @@
             <button type="button" class="btn btn-primary btn-hidden" id="button4">Hidden 3</button>
             <button type="button" class="btn btn-primary btn-hidden" id="button5">Hidden 4</button>
 <!--            <button type="button" class="btn btn-primary" id="button6">Hidden 4</button>-->
+        </div>
+        <div id="buttonContainer2">
         </div>
 <!--
 <form action="/process" method="POST">-->
@@ -73,6 +76,79 @@
     <script src="https://cdn.jsdelivr.net/npm/arrow-line/dist/arrow-line.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js" integrity="sha512-0dNdzMjpT6pJdFGF1DwybFCfm3K/lzHhxaMXC/92J9/DZujHlqYFqmhTOAoD0o+LkeEsVK2ar/ESs7/Q2B6wJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
+            function getChildren(idName){
+
+                console.log(idName);
+
+                //assume that this will be the response received
+                var jsonResponse = [
+                    {
+                        id:"button6",
+                        children:
+                        [
+                            {
+                                id:"button7",
+                                class:"btn btn-primary",
+                                topic:"New Button"
+                            },
+                            {
+                                id:"button8",
+                                class:"btn btn-primary",
+                                topic:"New Button"
+                            },
+                            {
+                                id:"button9",
+                                class:"btn btn-primary",
+                                topic:"New Button"
+                            },
+                        ]
+                    }
+                ]
+
+                console.log(jsonResponse);
+
+                for(var i=0;i<jsonResponse.length;i++)
+                {
+                    var element = jsonResponse[i];
+                    console.log(element);
+                    if(element.id === idName)
+                    {
+                        console.log("year");
+                        var children = element.children;
+                        console.log(children);
+                        for(let j=0;j<children.length;j++)
+                        {
+                            var newButtonId = "#"+children[j].id;
+                            var clickedId = "#"+idName;
+
+                            var selectedDiv = document.getElementById("buttonContainer2");
+                            var button = document.createElement("button");
+                            button.innerHTML = children[j].topic;
+                            button.id = children[j].id;
+                            button.type = "button";
+                            button.class = children[j].class;
+                            selectedDiv.appendChild(button);
+                            const arrow = arrowLine(clickedId,newButtonId,{color:'red'});
+                        }
+                    }
+                }
+
+            }
+
+
+
+            function addButton(){
+                var selectedDiv = document.getElementById("buttonContainer2");
+                var button = document.createElement("button");
+                button.innerHTML = "New button";
+                button.id = "newButton";
+                button.type = "button";
+                button.class = "btn btn-primary";
+                selectedDiv.appendChild(button);
+                const arrow = arrowLine("#button6","#newButton",{color:'red'});
+            }
+
             function changeVisibility(){
                 var selectedItems = document.querySelectorAll(".btn-hidden");
                 selectedItems.forEach((item) => {
